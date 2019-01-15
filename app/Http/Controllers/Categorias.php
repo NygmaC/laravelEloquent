@@ -27,6 +27,61 @@ class Categorias extends Controller
     	$cat = new Categoria();
     	$categoria = $cat->getCategoriaById($id); 
     	echo "Id: " . $categoria->id. "<br>";
-    		echo "Nome: " . $categoria->nome. "<br><br>";
+    	echo "Nome: " . $categoria->nome. "<br><br>";
+    }
+
+    public function removeCategoriaById($id) {
+        $categoria = Categoria::find($id);
+        if(isset($categoria)) {
+            $categoria->delete();
+            return redirect('');
+        }else {
+            echo "<h1>Não encontrado</h1>";
+        }
+
+    }
+
+    public function getCategoriasByNome($nome) {
+        $categorias = Categoria::where('nome',$nome)->get();
+        foreach ($categorias as $cat) {
+            echo "Id: " . $cat->id;
+            echo "Nome" . $cat->nome;
+
+            echo "<br>";
+        }
+    }
+
+    public function getCategoriasIdMaior($id) {
+        $categorias = Categoria::where('id', '>',$id)->get();
+        foreach ($categorias as $cat) {
+            echo "Id: " . $cat->id;
+            echo "Nome" . $cat->nome;
+
+            echo "<br>";
+        }   
+    }
+
+    public function getTodasCategorias() {
+        $categorias = new Categoria();
+        $cat = $categorias->getCategoriasIncluindoDeletadas();
+        foreach ($cat as $cat) {
+            echo "Id: " . $cat->id;
+            echo "Nome" . $cat->nome;
+
+            echo "<br>";
+        }   
+    }
+
+     public function getTodasCategorias($id) {
+        $categorias = new Categoria();
+        $cat = $categorias->getCategoriasIncluindoDeletadas($id);
+        if(isset($cat)) {
+
+            $cat->restore();
+            echo "Id: " . $cat->id;
+            echo "Nome" . $cat->nome;
+
+            echo "<br>";
+        }   
     }
 }
