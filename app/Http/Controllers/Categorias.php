@@ -72,15 +72,25 @@ class Categorias extends Controller
         }   
     }
 
-     public function getTodasCategorias($id) {
+    public function getTodasCategoriasById($id) {
         $categorias = new Categoria();
         $cat = $categorias->getCategoriasIncluindoDeletadas($id);
         if(isset($cat)) {
-
             $cat->restore();
             echo "Id: " . $cat->id;
-            echo "Nome" . $cat->nome;
+            echo "Nome" . $cat->nome; 
+            echo "<br>";
+        }   
+    }
 
+    // => Deleta de forma permanente
+    public function getTodasCategoriasByIdForceDelete($id) {
+        $categorias = new Categoria();
+        $cat = $categorias->getCategoriasIncluindoDeletadas($id);
+        if(isset($cat)) {
+            $cat->forceDelete();
+            echo "Id: " . $cat->id;
+            echo "Nome" . $cat->nome; 
             echo "<br>";
         }   
     }
